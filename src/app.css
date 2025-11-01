@@ -1,0 +1,132 @@
+/* Global styles with performance optimizations */
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--color-primary: #f5e159;
+	--color-dark: #11151b;
+	--color-white: #fff;
+	--color-gray: #2a3038;
+	--spacing-xs: 0.5rem;
+	--spacing-sm: 1rem;
+	--spacing-md: 1.5rem;
+	--spacing-lg: 3rem;
+	--spacing-xl: 4rem;
+	--transition-speed: 0.3s;
+	--border-radius: 12px;
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	/* Prevent layout shifts */
+	overflow-x: hidden;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	background-color: var(--color-dark);
+	color: var(--color-white);
+	line-height: 1.6;
+	overflow-x: hidden;
+	/* Prevent FOUC (Flash of Unstyled Content) */
+	min-height: 100vh;
+	/* Optimize font rendering */
+	text-rendering: optimizeLegibility;
+	-webkit-text-size-adjust: 100%;
+}
+
+/* Performance optimization: use will-change sparingly */
+.animate-on-scroll {
+	will-change: transform, opacity;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* Utility classes */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 var(--spacing-md);
+}
+
+.section {
+	padding: var(--spacing-lg) 0;
+	min-height: auto;
+}
+
+/* Loading optimization - prevent layout shifts */
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	/* Prevent layout shift on image load */
+	content-visibility: auto;
+}
+
+/* Prevent flash of unstyled content */
+[data-svelte-h] {
+	visibility: visible;
+}
+
+/* Reserve space for lazy-loaded images */
+img[loading="lazy"] {
+	min-height: 200px;
+	background: rgba(255, 255, 255, 0.02);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 4px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+	:root {
+		--spacing-lg: 2rem;
+		--spacing-xl: 2.5rem;
+	}
+
+	.container {
+		padding: 0 var(--spacing-sm);
+	}
+
+	/* Optimize touch targets */
+	button, a, input, select, textarea {
+		min-height: 44px;
+		min-width: 44px;
+	}
+}
+
+/* Prevent horizontal scrolling on mobile */
+@media (max-width: 768px) {
+	body {
+		overflow-x: hidden;
+		position: relative;
+	}
+}
+
+/* High DPI screen optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	body {
+		-webkit-font-smoothing: antialiased;
+	}
+}
