@@ -6,8 +6,5 @@ export default defineConfig({
 	build: {
 		minify: 'terser',
 		cssMinify: 'lightningcss'
-	},
-	optimizeDeps: {
-		include: []
 	}
 });

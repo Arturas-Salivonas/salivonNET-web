@@ -1,98 +1,62 @@
 # CV-Web Portfolio
 
-High-performance portfolio website built with SvelteKit, optimized for Google PageSpeed (100/100 on mobile and desktop).
+Single-page portfolio built with SvelteKit 2, Svelte 5, and a static adapter. The codebase is intentionally small: one route, data-driven content, lightweight canvas background motion, and no unused section scaffolding.
 
-## 🚀 Features
+## Stack
 
-- **100/100 PageSpeed Score** - Fully optimized for performance
-- **Responsive Design** - Works perfectly on all devices
-- **Animated Particle Background** - Interactive hero section
-- **Modern Tech Stack** - SvelteKit, TypeScript, Vite
-- **Static Site Generation** - Deploy anywhere
-- **Optimized Caching** - 1-year cache for assets
-- **Google Analytics** - Built-in tracking
+- SvelteKit 2 with Svelte 5
+- TypeScript
+- Vite 7
+- Static generation via `@sveltejs/adapter-static`
+- Local fonts via `@fontsource`
 
-## 📦 Tech Stack
-
-- **Framework:** SvelteKit with Svelte 5
-- **Language:** TypeScript
-- **Build Tool:** Vite 7.1.9
-- **CSS:** Scoped styles with CSS variables
-- **Deployment:** Static adapter for shared hosting
-
-## 🛠️ Installation
+## Scripts
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
-
-# Build for production
+npm run check
 npm run build
-
-# Preview production build
 npm run preview
 ```
 
-## 📁 Project Structure
+## Project Structure
 
-```
+```text
 src/
-├── routes/
-│   ├── +page.svelte          # Main page with data
-│   └── +layout.svelte         # Root layout with analytics
-├── lib/
-│   └── components/
-│       ├── IntroSection.svelte
-│       ├── ParticleBackground.svelte
-│       ├── StatsSection.svelte
-│       ├── SkillsSection.svelte
-│       ├── PortfolioSection.svelte
-│       ├── Footer.svelte
-│       └── ScrollToTop.svelte
-└── app.css                    # Global styles
-
-static/
-├── .htaccess                  # Apache config with caching
-├── as-favicon.png             # Favicon
-└── *.webp                     # Portfolio images
+  app.css                      Global design tokens and shared layout styles
+  routes/
+    +layout.svelte             Root layout, analytics, and critical resets
+    +page.svelte               Page composition and SEO metadata
+  lib/
+    data/
+      site.ts                  Typed site content and section data
+    components/
+      CapabilityGrid.svelte    Capability cards
+      FeaturedWorkSection.svelte
+      HeroSection.svelte       Hero copy, portrait, metrics, and social actions
+      InteractiveBackdrop.svelte
+      Reveal.svelte            Reusable reveal wrapper
 ```
 
-## 🚀 Deployment
+## Editing Content
 
-The site is configured for static hosting. After building:
+Most content lives in [src/lib/data/site.ts](src/lib/data/site.ts).
 
-1. Run `npm run build`
-2. Upload contents of `build/` folder to your hosting
-3. Ensure `.htaccess` file is uploaded (hidden file)
-4. Verify all images are uploaded
+- `site.titleRole` is used for the document title and plain metadata.
+- `site.heroRoleHtml` and `site.heroHeadlineHtml` support deliberate inline HTML such as `<br>` or styled spans for the hero only.
+- `metrics`, `capabilities`, and `projects` drive the rest of the page.
 
-## 🎯 Performance Optimizations
+## Performance Notes
 
-- Critical CSS inlined in layout
-- Lazy loading for images
-- Intersection observers for animations
-- Optimized caching headers (1 year for hashed assets)
-- Minified CSS and JS with Terser
-- GPU-accelerated animations
-- Content visibility for images
+- Static prerendered output
+- Local font loading
+- Sized images to reduce layout shift
+- Reduced-motion fallback for animation
+- Minimal component tree and no client-side routing complexity
 
-## 📊 Google Analytics
+## Deployment
 
-Analytics is configured with measurement ID: `G-E63W60ZT7G`
+`npm run build` writes the static site to `build/`.
 
-## 🔧 Configuration
-
-- **Favicon:** Place `as-favicon.png` in `static/` folder
-- **Images:** Add portfolio images to `static/` folder
-- **Data:** Update arrays in `src/routes/+page.svelte`:
-  - `personalInfo` - Name, title, description
-  - `stats` - Achievement statistics
-  - `skills` - Technology skills
-  - `portfolio` - Project showcase
-
-## 📝 License
-
-© 2025 Arturas Salivonas. All rights reserved.
+Deploy the contents of `build/` to any static host.

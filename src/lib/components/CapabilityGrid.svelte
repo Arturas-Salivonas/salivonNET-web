@@ -1,0 +1,123 @@
+<script lang="ts">
+	import Reveal from '$lib/components/Reveal.svelte';
+	import type { CapabilityGroup } from '$lib/data/site';
+
+	interface Props {
+		groups: CapabilityGroup[];
+	}
+
+	let { groups }: Props = $props();
+</script>
+
+<section class="section capabilities" id="capabilities">
+	<div class="container">
+		<Reveal className="capabilities__header" delay={0}>
+			<p class="section-kicker">Capability map</p>
+			<h2>The technical side matters to me just as much as the visuals.</h2>
+		</Reveal>
+
+		<div class="capability-grid">
+			{#each groups as group, index}
+				<Reveal className="capability-card" delay={index * 80 + 40}>
+					<h3>{group.title}</h3>
+					<p>{group.description}</p>
+					<ul>
+						{#each group.items as item}
+							<li>{item}</li>
+						{/each}
+					</ul>
+				</Reveal>
+			{/each}
+		</div>
+	</div>
+</section>
+
+<style>
+	:global(.capabilities__header) {
+		margin-bottom: 1.4rem;
+	}
+
+	:global(.capabilities__header) h2 {
+		max-width: 14ch;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1;
+		letter-spacing: -0.05em;
+	}
+
+	.section-kicker {
+		margin-bottom: 0.95rem;
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--accent-2);
+	}
+
+	.capability-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	:global(.capability-card) {
+		padding: 1.4rem;
+		border-radius: 1.3rem;
+		background:
+			linear-gradient(180deg, rgba(14, 17, 24, 0.94), rgba(10, 12, 18, 0.94)),
+			radial-gradient(circle at top right, rgba(255, 193, 7, 0.12), transparent 42%);
+		border: 1px solid rgba(160, 182, 227, 0.11);
+		transition:
+			transform 220ms ease,
+			border-color 220ms ease,
+			background-color 220ms ease;
+	}
+
+	:global(.capability-card):hover {
+		transform: translateY(-3px);
+		border-color: rgba(255, 193, 7, 0.16);
+		background:
+			linear-gradient(180deg, rgba(17, 20, 28, 0.96), rgba(10, 12, 18, 0.96)),
+			radial-gradient(circle at top right, rgba(255, 193, 7, 0.16), transparent 42%);
+	}
+
+	:global(.capability-card) h3 {
+		font-size: 1.25rem;
+		font-weight: 500;
+		margin-bottom: 0.7rem;
+	}
+
+	:global(.capability-card) p {
+		color: var(--text-soft);
+		margin-bottom: 1rem;
+	}
+
+	:global(.capability-card) ul {
+		display: grid;
+		gap: 0.7rem;
+		list-style: none;
+	}
+
+	:global(.capability-card) li {
+		position: relative;
+		padding-left: 1rem;
+		color: var(--text-main);
+	}
+
+	:global(.capability-card) li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.62rem;
+		width: 0.36rem;
+		height: 0.36rem;
+		border-radius: 999px;
+		background: var(--accent-2);
+		box-shadow: 0 0 14px rgba(255, 193, 7, 0.42);
+	}
+
+	@media (max-width: 960px) {
+		.capability-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

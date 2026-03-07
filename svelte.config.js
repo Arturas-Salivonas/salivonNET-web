@@ -7,24 +7,19 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			// Output directory for static files
 			pages: 'build',
 			assets: 'build',
 			fallback: undefined,
 			precompress: false,
 			strict: true
 		}),
-
-		// Performance optimizations
 		prerender: {
 			entries: ['*'],
 			handleHttpError: 'warn',
 			handleMissingId: 'warn'
 		},
-
-		// Paths configuration for shared hosting
 		paths: {
-			base: '', // Change to '/subfolder' if deploying to a subdirectory
+			base: ''
 		}
 	}
 };
