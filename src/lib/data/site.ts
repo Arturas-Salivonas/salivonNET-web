@@ -12,6 +12,17 @@ export interface SiteData {
 	intro: string;
 	profileImage: string;
 	socials: SocialLink[];
+	contact: ContactSectionData;
+}
+
+export interface ContactSectionData {
+	eyebrow: string;
+	title: string;
+	description: string;
+	email: string;
+	buttonLabel: string;
+	availability: string[];
+	note: string;
 }
 
 export interface Metric {
@@ -40,7 +51,7 @@ export const site: SiteData = {
 	titleRole: 'Front-End Developer',
 	heroRoleHtml: 'Front-End Developer / <span class="hero__role-name">Arturas Salivonas</span>',
 	heroHeadlineHtml:
-		'<span class="hero__headline-line">I build fast,<br> SEO optimised</span><br class="hero__headline-break" /><span class="hero__headline-line">websites that rank well and are easy to use.</span>',
+		'<span class="hero__headline-line">I build <span class="highlight">fast</span>,<br> <span class="highlight">SEO optimised</span></span><br class="hero__headline-break" /><span class="hero__headline-line">websites that <span class="highlight">rank well</span> and are <span class="highlight">easy to use</span>.</span>',
 	intro:
 		"I'm a front-end developer with 10+ years of experience across SaaS, editorial, ecommerce, Web3, and custom WordPress builds. I focus on technical SEO, performance, and clean UI - building sites that feel fast, sharp, and easy to use.",
 	profileImage: '/arturas.webp',
@@ -55,7 +66,17 @@ export const site: SiteData = {
 			href: 'https://www.linkedin.com/in/salivonas/',
 			detail: ''
 		}
-	] satisfies SocialLink[]
+	] satisfies SocialLink[],
+	contact: {
+		eyebrow: 'Need a hand?',
+		title: 'If you need help with a project, a website refresh, or want to hire me for short or long term work, get in touch.',
+		description:
+			'I work across fast marketing sites, SEO-focused builds, product frontends, and ongoing delivery work. If you already know what you need or just want to talk through the scope, email me and I will get back to you.',
+		email: 'arturas@salivon.net',
+		buttonLabel: 'Email Arturas',
+		availability: ['Project work', 'Website rebuilds', 'Short-term contracts', 'Long-term roles'],
+		note: 'Remote-friendly and happy to discuss the right setup for the work.'
+	}
 };
 
 export const metrics: Metric[] = [

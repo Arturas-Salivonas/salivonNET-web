@@ -13,7 +13,7 @@
 	<div class="container">
 		<Reveal className="work__header" delay={0}>
 			<p class="section-kicker">Selected work</p>
-			<h2>A few projects that show the mix of product UI, optimization, and frontend craft I like working on.</h2>
+			<h2>A few projects that I worked on.</h2>
 		</Reveal>
 
 		<div class="work-grid">

@@ -157,3 +157,8 @@ textarea {
 		backface-visibility: hidden;
 	}
 }
+
+.highlight{
+	/* border-bottom:8px solid var(--accent); */
+text-decoration: underline 0.08em var(--accent);
+}

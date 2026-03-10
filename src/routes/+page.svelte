@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CapabilityGrid from '$lib/components/CapabilityGrid.svelte';
+	import ContactSection from '$lib/components/ContactSection.svelte';
 	import FeaturedWorkSection from '$lib/components/FeaturedWorkSection.svelte';
 	import HeroSection from '$lib/components/HeroSection.svelte';
 	import InteractiveBackdrop from '$lib/components/InteractiveBackdrop.svelte';
@@ -18,6 +19,7 @@
 	<HeroSection {site} {metrics} />
 	<FeaturedWorkSection {projects} />
 	<CapabilityGrid groups={capabilities} />
+	<ContactSection contact={site.contact} />
 </main>
 
 <style>
