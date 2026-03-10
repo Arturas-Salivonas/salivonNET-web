@@ -42,7 +42,7 @@ export const site: SiteData = {
 	heroHeadlineHtml:
 		'<span class="hero__headline-line">I build fast,<br> SEO optimised</span><br class="hero__headline-break" /><span class="hero__headline-line">websites that rank well and are easy to use.</span>',
 	intro:
-		"I'm a front-end developer with 9+ years of experience across SaaS, editorial, ecommerce, Web3, and custom WordPress builds. I focus on technical SEO, performance, and clean UI - building sites that feel fast, sharp, and easy to use.",
+		"I'm a front-end developer with 10+ years of experience across SaaS, editorial, ecommerce, Web3, and custom WordPress builds. I focus on technical SEO, performance, and clean UI - building sites that feel fast, sharp, and easy to use.",
 	profileImage: '/arturas.webp',
 	socials: [
 		{
@@ -60,7 +60,7 @@ export const site: SiteData = {
 
 export const metrics: Metric[] = [
 	{
-		value: '9+',
+		value: '10+',
 		label: 'years building for the web',
 		detail: 'Enough time to know what matters and what is just noise.'
 	},

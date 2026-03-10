@@ -34,26 +34,6 @@
 				<h1>{@html site.heroHeadlineHtml}</h1>
 				<p class="hero__lede">{site.intro}</p>
 
-
-			</Reveal>
-
-			<Reveal className="hero__panel" delay={180}>
-				<div class="panel-card">
-
-
-					<div class="panel-card__body">
-						<div class="panel-card__portrait-wrap">
-							<img class="panel-card__portrait" src={site.profileImage} alt={site.name} width="420" height="520" />
-						</div>
-
-						<div class="panel-card__terminal">
-							<p class="panel-card__label">preferred.tech.stack</p>
-							<p class="panel-card__value">WordPress / TypeScript / SvelteKit  / React / Next.js / GraphQL</p>
-							<p class="panel-card__label">what.i.care.about</p>
-							<p class="panel-card__value">technical SEO / performance / clean UI / interesting frontend projects</p>
-							<p class="panel-card__label">short.intro</p>
-							<p class="panel-card__value">Based in the United Kingdom / Work remotely / Love Web3, AI and the occasional very productive 90-minute Zoom calls</p>
-
 							<div class="panel-card__actions">
 								{#each site.socials as social}
 									<a
@@ -71,6 +51,27 @@
 									</a>
 								{/each}
 							</div>
+			</Reveal>
+
+			<Reveal className="hero__panel" delay={180}>
+				<div class="panel-card">
+
+
+					<div class="panel-card__body">
+						<div class="panel-card__portrait-wrap">
+							<img class="panel-card__portrait" src={site.profileImage} alt={site.name} width="420" height="520" />
+						</div>
+
+						<div class="panel-card__terminal">
+						<p class="panel-card__label">Short.intro</p>
+							<p class="panel-card__value">UK based / Remote first / Love Web3 & AI</p>
+							<p class="panel-card__label">Preferred.tech.stack</p>
+							<p class="panel-card__value">WordPress / TypeScript / SvelteKit  / React / Next.js / GraphQL</p>
+							<p class="panel-card__label">What.i.care.about</p>
+							<p class="panel-card__value">Technical SEO / performance / clean UI / interesting frontend projects</p>
+
+
+
 						</div>
 					</div>
 				</div>
@@ -154,12 +155,12 @@
 		display: grid;
 		grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
 		gap: 2rem;
-		align-items: end;
+		/* align-items: end; */
 	}
 
 	:global(.hero__copy) h1 {
 		max-width: 12ch;
-		font-size: clamp(3.2rem, 8vw, 6.6rem);
+		font-size: clamp(3.2rem, 8vw, 5.6rem);
 		line-height: 0.94;
 		letter-spacing: -0.06em;
 		margin-bottom: 1.25rem;
@@ -409,6 +410,7 @@
 		font-weight: 500;
 		letter-spacing: -0.05em;
 		margin-bottom: 0.4rem;
+		color:#ffc107;
 	}
 
 	:global(.signal-strip) h2 {
@@ -450,7 +452,29 @@
 		}
 
 		:global(.hero__copy) h1 {
-			font-size: clamp(2.8rem, 18vw, 4.5rem);
+			font-size: clamp(2.8rem, 18vw, 3.5rem);
+		}
+	}
+
+	@media (pointer: coarse) {
+		.hero__grid {
+			transform: none;
+			opacity: 0.05;
+		}
+
+		.hero__orb {
+			display: none;
+		}
+
+		.panel-card,
+		.panel-card__portrait-wrap,
+		.panel-card__portrait,
+		.panel-card__terminal {
+			transition: none;
+		}
+
+		.panel-card__portrait {
+			filter: none;
 		}
 	}
 </style>
