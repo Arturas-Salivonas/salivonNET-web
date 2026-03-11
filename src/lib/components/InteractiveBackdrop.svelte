@@ -10,6 +10,7 @@
 	interface Segment {
 		x: number;
 		y: number;
+		collected: boolean;
 	}
 
 	interface Collectible {
@@ -200,7 +201,7 @@
 		let width = window.innerWidth;
 		let height = window.innerHeight;
 		let dpr = Math.min(window.devicePixelRatio || 1, pixelRatioCap);
-		const createSegment = (): Segment => ({ x: target.x, y: target.y });
+		const createSegment = (): Segment => ({ x: target.x, y: target.y, collected: false });
 		const segments: Segment[] = Array.from({ length: counts.segments }, createSegment);
 		const bursts: PickupBurst[] = [];
 
@@ -406,7 +407,7 @@
 
 				if (distanceBetween(head.x, head.y, collectibleX, collectibleY) <= gridSize * trail.pickupRadiusFactor) {
 					const tail = segments[segments.length - 1];
-					segments.push({ x: tail.x, y: tail.y });
+					segments.push({ x: tail.x, y: tail.y, collected: true });
 					createPickupBurst(collectibleX, collectibleY);
 					collectibles[index] = spawnCollectible(head.x, head.y);
 				}
@@ -418,10 +419,23 @@
 				const y = snapToGrid(segment.y) - gridSize * 0.5;
 				const progress = (segments.length - index) / segments.length;
 				const alpha = 0.08 + progress * 0.24;
-				const snakeGreen = Math.round(theme.snake.base.g + progress * 52);
-				context.fillStyle = `rgba(${theme.snake.base.r}, ${snakeGreen}, ${theme.snake.base.b}, ${alpha})`;
+				const fillColor = segment.collected
+					? theme.collectible.fill
+					: {
+							r: theme.snake.base.r,
+							g: Math.round(theme.snake.base.g + progress * 52),
+							b: theme.snake.base.b
+						};
+				const strokeColor = segment.collected
+					? theme.collectible.stroke
+					: {
+							r: theme.snake.base.r,
+							g: Math.min(235, fillColor.g + theme.snake.strokeBoost),
+							b: 117
+						};
+				context.fillStyle = rgba(fillColor, alpha);
 				context.fillRect(x + BACKDROP_CONFIG.snake.segmentInset, y + BACKDROP_CONFIG.snake.segmentInset, gridSize - BACKDROP_CONFIG.snake.segmentInset * 2, gridSize - BACKDROP_CONFIG.snake.segmentInset * 2);
-				context.strokeStyle = `rgba(${theme.snake.base.r}, ${Math.min(235, snakeGreen + theme.snake.strokeBoost)}, 117, ${0.08 + alpha * 0.42})`;
+				context.strokeStyle = rgba(strokeColor, 0.08 + alpha * 0.42);
 				context.strokeRect(
 					x + BACKDROP_CONFIG.snake.segmentInset + BACKDROP_CONFIG.snake.strokeOffset,
 					y + BACKDROP_CONFIG.snake.segmentInset + BACKDROP_CONFIG.snake.strokeOffset,

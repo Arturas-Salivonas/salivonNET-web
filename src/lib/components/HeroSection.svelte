@@ -22,8 +22,6 @@
 <section class="hero" id="top">
 	<div class="hero__noise"></div>
 	<div class="hero__grid"></div>
-	<div class="hero__orb hero__orb--a"></div>
-	<div class="hero__orb hero__orb--b"></div>
 
 	<div class="container hero__inner">
 
@@ -126,30 +124,6 @@
 		transform-origin: top center;
 	}
 
-	.hero__orb {
-		position: absolute;
-
-		filter: blur(60px);
-		opacity: 0.35;
-		animation: drift 12s ease-in-out infinite;
-	}
-
-	.hero__orb--a {
-		right: -10rem;
-		top: 4rem;
-		width: 24rem;
-		height: 24rem;
-		background: rgba(255, 193, 7, 0.2);
-	}
-
-	.hero__orb--b {
-		left: -8rem;
-		bottom: 2rem;
-		width: 20rem;
-		height: 20rem;
-		background: rgba(255, 179, 0, 0.1);
-		animation-delay: -4s;
-	}
 
 	.hero__content {
 		display: grid;
@@ -462,9 +436,7 @@
 			opacity: 0.05;
 		}
 
-		.hero__orb {
-			display: none;
-		}
+
 
 		.panel-card,
 		.panel-card__portrait-wrap,
