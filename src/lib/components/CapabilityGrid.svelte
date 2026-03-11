@@ -61,7 +61,7 @@
 
 	:global(.capability-card) {
 		padding: 1.4rem;
-		border-radius: 1.3rem;
+
 		background:
 			linear-gradient(180deg, rgba(14, 17, 24, 0.94), rgba(10, 12, 18, 0.94)),
 			radial-gradient(circle at top right, rgba(255, 193, 7, 0.12), transparent 42%);
@@ -110,7 +110,7 @@
 		top: 0.62rem;
 		width: 0.36rem;
 		height: 0.36rem;
-		border-radius: 999px;
+
 		background: var(--accent-2);
 		box-shadow: 0 0 14px rgba(255, 193, 7, 0.42);
 	}

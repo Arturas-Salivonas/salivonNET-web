@@ -80,7 +80,7 @@
 	:global(.work-card) a {
 		display: grid;
 		height: 100%;
-		border-radius: 1.4rem;
+
 		overflow: hidden;
 		background: linear-gradient(180deg, rgba(13, 16, 22, 0.92), rgba(9, 10, 15, 0.98));
 		border: 1px solid rgba(160, 182, 227, 0.12);

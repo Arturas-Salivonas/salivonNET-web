@@ -68,7 +68,7 @@
 							<p class="panel-card__label">Preferred.tech.stack</p>
 							<p class="panel-card__value">WordPress / TypeScript / SvelteKit  / React / Next.js / GraphQL</p>
 							<p class="panel-card__label">What.i.care.about</p>
-							<p class="panel-card__value">Technical SEO / performance / clean UI / interesting frontend projects</p>
+							<p class="panel-card__value">Technical SEO / performance / clean UI</p>
 
 
 
@@ -128,7 +128,7 @@
 
 	.hero__orb {
 		position: absolute;
-		border-radius: 999px;
+
 		filter: blur(60px);
 		opacity: 0.35;
 		animation: drift 12s ease-in-out infinite;
@@ -155,13 +155,13 @@
 		display: grid;
 		grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
 		gap: 2rem;
-		/* align-items: end; */
+		 align-items: end;
 	}
 
 	:global(.hero__copy) h1 {
 		max-width: 12ch;
-		font-size: clamp(3.2rem, 8vw, 5.6rem);
-		line-height: 0.94;
+		font-size: clamp(3.2rem, 8vw, 5rem);
+		line-height: 1;
 		letter-spacing: -0.06em;
 		margin-bottom: 1.25rem;
 	}
@@ -200,7 +200,7 @@
 		justify-content: center;
 		min-height: 3.25rem;
 		padding: 0 1.25rem;
-		border-radius: 999px;
+
 		border: 1px solid rgba(160, 182, 227, 0.16);
 		font-size: 0.95rem;
 		transition:
@@ -220,7 +220,7 @@
 		justify-content: center;
 		gap: 0.75rem;
 		padding: 0.85rem 1rem;
-		border-radius: 1.1rem;
+
 		width: 100%;
 	}
 
@@ -271,7 +271,7 @@
 	.panel-card {
 		position: relative;
 		padding: 1.1rem;
-		border-radius: 1.6rem;
+
 		background: linear-gradient(180deg, rgba(18, 22, 32, 0.94), rgba(10, 12, 18, 0.92));
 		border: 1px solid rgba(160, 182, 227, 0.14);
 		box-shadow: var(--shadow-panel);
@@ -289,7 +289,7 @@
 		inset: auto -20% -40% auto;
 		width: 14rem;
 		height: 14rem;
-		border-radius: 999px;
+
 		background: radial-gradient(circle, rgba(255, 193, 7, 0.16) 0%, transparent 70%);
 	}
 
@@ -306,7 +306,7 @@
 
 	.panel-card__portrait-wrap {
 		position: relative;
-		border-radius: 1.1rem;
+
 		overflow: hidden;
 		background:
 			linear-gradient(135deg, rgba(255, 193, 7, 0.16), transparent 56%),
@@ -324,7 +324,7 @@
 
 	.panel-card__portrait {
 		width: 100%;
-		height: clamp(18rem, 34vw, 28rem);
+		height: clamp(18rem, 34vw, 22rem);
 		object-fit: cover;
 		object-position: center top;
 		filter: saturate(0.92) contrast(1.04);
@@ -343,7 +343,7 @@
 		display: grid;
 		gap: 0.4rem;
 		padding: 1rem;
-		border-radius: 1rem;
+
 		background: rgba(8, 9, 13, 0.78);
 		border: 1px solid rgba(160, 182, 227, 0.1);
 		transition:
@@ -389,7 +389,7 @@
 
 	:global(.signal-strip) article {
 		padding: 1.2rem;
-		border-radius: 1rem;
+
 		background: rgba(12, 14, 20, 0.7);
 		border: 1px solid rgba(160, 182, 227, 0.11);
 		transition:
@@ -452,7 +452,7 @@
 		}
 
 		:global(.hero__copy) h1 {
-			font-size: clamp(2.8rem, 18vw, 3.5rem);
+			font-size: clamp(2.8rem, 18vw, 3rem);
 		}
 	}
 

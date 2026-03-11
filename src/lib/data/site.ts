@@ -92,13 +92,13 @@ export const metrics: Metric[] = [
 	},
 	{
 		value: 'AI',
-		label: 'automation and ai workflows',
-		detail: 'AI tooling, automation ideas, and product flows that remove repetitive work.'
+		label: 'automation and smart workflows',
+		detail: 'AI tooling, automation ideas, and smart product flows.'
 	},
 	{
 		value: 'SEO',
 		label: 'performance and discoverability',
-		detail: 'Core Web Vitals, clean markup, indexable pages, and technical polish.'
+		detail: 'Core Web Vitals, clean markup and indexable pages.'
 	}
 ];
 

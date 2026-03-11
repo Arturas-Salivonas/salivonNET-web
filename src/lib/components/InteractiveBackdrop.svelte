@@ -524,7 +524,7 @@
 	.backdrop__cursor-ring {
 		width: 2.1rem;
 		height: 2.1rem;
-		border-radius: 999px;
+
 		border: 1px solid var(--backdrop-cursor-ring);
 		box-shadow: 0 0 18px var(--backdrop-cursor-ring-shadow);
 	}
@@ -532,7 +532,7 @@
 	.backdrop__cursor-dot {
 		width: 0.34rem;
 		height: 0.34rem;
-		border-radius: 999px;
+
 		background: var(--backdrop-cursor-dot);
 		box-shadow: 0 0 12px var(--backdrop-cursor-dot-shadow);
 	}

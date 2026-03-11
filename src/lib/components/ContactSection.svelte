@@ -59,7 +59,7 @@
 
 	:global(.contact-copy) {
 		padding: clamp(1.4rem, 3vw, 2rem);
-		border-radius: 1.6rem;
+
 		background:
 			linear-gradient(180deg, rgba(12, 16, 24, 0.9), rgba(8, 10, 15, 0.96)),
 			radial-gradient(circle at top left, rgba(85, 19, 173, 0.22), transparent 42%);
@@ -97,7 +97,7 @@
 
 	:global(.contact-panel) {
 		padding: 1px;
-		border-radius: 1.6rem;
+
 		background: linear-gradient(135deg, rgba(182, 136, 255, 0.34), rgba(85, 19, 173, 0.16), rgba(255, 193, 7, 0.12));
 	}
 
@@ -106,7 +106,7 @@
 		gap: 1rem;
 		height: 100%;
 		padding: clamp(1.25rem, 3vw, 1.6rem);
-		border-radius: calc(1.6rem - 1px);
+
 		background:
 			linear-gradient(180deg, rgba(13, 17, 24, 0.95), rgba(9, 10, 15, 0.98)),
 			radial-gradient(circle at top right, rgba(85, 19, 173, 0.18), transparent 52%);
@@ -129,7 +129,7 @@
 		justify-content: center;
 
 		padding: 0.55rem 0.8rem;
-		border-radius: 999px;
+
 		font-size: 0.68rem;
 
 		background: rgba(85, 19, 173, 0.22);
@@ -141,7 +141,7 @@
 		gap: 0.28rem;
 		align-items: center;
 		padding: 1rem 1.1rem;
-		border-radius: 1.25rem;
+
 		background: linear-gradient(135deg, rgba(85, 19, 173, 0.92), rgba(122, 62, 215, 0.94));
 		border: 1px solid rgba(214, 187, 255, 0.18);
 		transition:

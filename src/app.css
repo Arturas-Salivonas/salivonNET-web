@@ -82,7 +82,7 @@ textarea {
 :focus-visible {
 	outline: 2px solid rgba(255, 193, 7, 0.8);
 	outline-offset: 3px;
-	border-radius: 0.35rem;
+
 }
 
 .container {
@@ -159,6 +159,5 @@ textarea {
 }
 
 .highlight{
-	/* border-bottom:8px solid var(--accent); */
-text-decoration: underline 0.08em var(--accent);
+color:var(--accent);
 }
