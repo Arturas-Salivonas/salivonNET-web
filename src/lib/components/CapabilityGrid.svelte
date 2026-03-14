@@ -11,11 +11,6 @@
 
 <section class="section capabilities" id="capabilities">
 	<div class="container">
-		<Reveal className="capabilities__header" delay={0}>
-			<p class="section-kicker">Capability map</p>
-			<h2>The technical side matters to me just as much as the visuals.</h2>
-		</Reveal>
-
 		<div class="capability-grid">
 			{#each groups as group, index}
 				<Reveal className="capability-card" delay={index * 80 + 40}>
@@ -35,22 +30,6 @@
 <style>
 	:global(.capabilities__header) {
 		margin-bottom: 1.4rem;
-	}
-
-	:global(.capabilities__header) h2 {
-		max-width: 14ch;
-		font-size: clamp(2rem, 4vw, 3.2rem);
-		line-height: 1;
-		letter-spacing: -0.05em;
-	}
-
-	.section-kicker {
-		margin-bottom: 0.95rem;
-		font-family: var(--font-mono);
-		font-size: 0.78rem;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--accent-2);
 	}
 
 	.capability-grid {

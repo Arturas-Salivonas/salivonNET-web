@@ -51,9 +51,9 @@ export const site: SiteData = {
 	titleRole: 'Front-End Developer',
 	heroRoleHtml: 'Front-End Developer / <span class="hero__role-name">Arturas Salivonas</span>',
 	heroHeadlineHtml:
-		'<span class="hero__headline-line">I build <span class="highlight">fast</span>,<br> <span class="highlight">SEO optimised</span></span><br class="hero__headline-break" /><span class="hero__headline-line">websites that <span class="highlight">rank well</span> and are <span class="highlight">easy to use</span>.</span>',
+		'<span class="hero__headline-line">I build <span class="highlight">fast</span>,<br> <span class="highlight">SEO-optimised</span></span><br class="hero__headline-break" /><span class="hero__headline-line">websites that <span class="highlight">perform</span> & <span class="highlight">scale</span>.</span>',
 	intro:
-		"I'm a front-end developer with 10+ years of experience across SaaS, editorial, ecommerce, Web3, and custom WordPress builds. I focus on technical SEO, performance, and clean UI - building sites that feel fast, sharp, and easy to use.",
+		"Front-end developer with 10+ years building fast, scalable websites. I care about web performance, SEO, and interfaces that stay clean as products grow.",
 	profileImage: '/arturas.webp',
 	socials: [
 		{
@@ -104,19 +104,19 @@ export const metrics: Metric[] = [
 
 export const capabilities: CapabilityGroup[] = [
 	{
-		title: 'Frontend systems',
-		description: 'I like building frontends that stay clean even when the content grows and the product gets messy.',
-		items: ['SvelteKit / Svelte 5', 'React / Next.js', 'TypeScript', 'Component architecture']
+		title: 'Frontend Systems',
+		description: 'I build frontend systems that stay simple as products grow.',
+		items: ['SvelteKit / Svelte', 'React / Next.js', 'TypeScript', 'Component architecture']
 	},
 	{
-		title: 'SEO and optimization',
-		description: 'I care about the technical side too, not just how the page looks on first glance.',
-		items: ['Technical SEO', 'Core Web Vitals', 'Performance tuning', 'Accessibility']
+		title: 'SEO & Optimization',
+		description: 'I focus on the technical foundations that drive performance and search visibility.',
+		items: ['Technical SEO', 'Core Web Vitals', 'Performance optimisation', 'Accessibility']
 	},
 	{
-		title: 'WordPress and delivery',
-		description: 'I have done a lot of WordPress work too, so I am comfortable when marketing, content, and frontend all need to meet in the middle.',
-		items: ['WordPress', 'Custom Themes', 'Gutenberg', 'Playwright / Storybook']
+		title: 'WordPress Delivery',
+		description: 'I build custom WP setups that work well for both developers and marketing teams.',
+		items: ['Custom Themes', 'Gutenberg blocks', 'Elementor & other builders integration', 'Performance & SEO optimisation']
 	}
 ];
 

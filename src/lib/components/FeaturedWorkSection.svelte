@@ -28,7 +28,7 @@
 							<p class="work-card__eyebrow">{project.eyebrow}</p>
 							<div class="work-card__title-row">
 								<h3>{project.name}</h3>
-								<span>Open</span>
+
 							</div>
 							<p class="work-card__summary">{project.summary}</p>
 							<p class="work-card__stack">{project.stack}</p>
@@ -54,8 +54,7 @@
 
 	.section-kicker,
 	.work-card__eyebrow,
-	.work-card__stack,
-	.work-card__title-row span {
+	.work-card__stack {
 		font-family: var(--font-mono);
 		font-size: 0.78rem;
 		letter-spacing: 0.16em;
@@ -69,7 +68,7 @@
 
 	.work-grid {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 1rem;
 	}
 
@@ -155,7 +154,6 @@
 		font-weight: 500;
 	}
 
-	.work-card__title-row span,
 	.work-card__stack {
 		color: var(--muted);
 	}

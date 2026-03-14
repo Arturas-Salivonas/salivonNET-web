@@ -4,7 +4,8 @@
 	import FeaturedWorkSection from '$lib/components/FeaturedWorkSection.svelte';
 	import HeroSection from '$lib/components/HeroSection.svelte';
 	import InteractiveBackdrop from '$lib/components/InteractiveBackdrop.svelte';
-	import { capabilities, metrics, projects, site } from '$lib/data/site';
+	import { capabilities, projects, site } from '$lib/data/site';
+	// import { capabilities, metrics, projects, site } from '$lib/data/site';
 </script>
 
 <svelte:head>
@@ -16,9 +17,11 @@
 <main class="page-shell">
 	<InteractiveBackdrop />
 
-	<HeroSection {site} {metrics} />
-	<FeaturedWorkSection {projects} />
+	<HeroSection {site}  />
 	<CapabilityGrid groups={capabilities} />
+	<!-- <HeroSection {site} {metrics} /> -->
+	<FeaturedWorkSection {projects} />
+
 	<ContactSection contact={site.contact} />
 </main>
 

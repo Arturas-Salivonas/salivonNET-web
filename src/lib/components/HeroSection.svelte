@@ -62,11 +62,11 @@
 
 						<div class="panel-card__terminal">
 						<p class="panel-card__label">Short.intro</p>
-							<p class="panel-card__value">UK based / Remote first / Love Web3 & AI</p>
+							<p class="panel-card__value">UK based / Remote first / Interested in Web3 & AI</p>
 							<p class="panel-card__label">Preferred.tech.stack</p>
-							<p class="panel-card__value">WordPress / TypeScript / SvelteKit  / React / Next.js / GraphQL</p>
+							<p class="panel-card__value">WordPress / TypeScript / Svelte  / React / Next.js / GraphQL</p>
 							<p class="panel-card__label">What.i.care.about</p>
-							<p class="panel-card__value">Technical SEO / performance / clean UI</p>
+							<p class="panel-card__value">Technical SEO / Performance / Clean UI</p>
 
 
 
@@ -76,7 +76,7 @@
 			</Reveal>
 		</div>
 
-		<Reveal className="signal-strip" delay={260}>
+		<!-- <Reveal className="signal-strip" delay={260}>
 			{#each metrics as metric}
 				<article>
 					<strong>{metric.value}</strong>
@@ -84,14 +84,14 @@
 					<p>{metric.detail}</p>
 				</article>
 			{/each}
-		</Reveal>
+		</Reveal> -->
 	</div>
 </section>
 
 <style>
 	.hero {
 		position: relative;
-		padding: 4.5rem 0 4rem;
+		padding: 4.5rem 0 1rem;
 		overflow: clip;
 	}
 
@@ -127,9 +127,9 @@
 
 	.hero__content {
 		display: grid;
-		grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+		grid-template-columns: minmax(0, 1.6fr) minmax(382px, 0.4fr);
 		gap: 2rem;
-		 align-items: end;
+		align-items: end;
 	}
 
 	:global(.hero__copy) h1 {
@@ -172,7 +172,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 3.25rem;
+
 		padding: 0 1.25rem;
 
 		border: 1px solid rgba(160, 182, 227, 0.16);
@@ -208,9 +208,7 @@
 		font-weight: 500;
 	}
 
-	.button--compact {
-		min-height: 3.5rem;
-	}
+
 
 	.button--social small {
 		font-size: 0.72rem;
@@ -298,7 +296,7 @@
 
 	.panel-card__portrait {
 		width: 100%;
-		height: clamp(18rem, 34vw, 22rem);
+		height: clamp(16rem, 34vw, 16rem);
 		object-fit: cover;
 		object-position: center top;
 		filter: saturate(0.92) contrast(1.04);
@@ -349,7 +347,7 @@
 
 	.panel-card__actions {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 0.75rem;
 		margin-top: 0.55rem;
 	}
@@ -359,32 +357,6 @@
 		display: grid;
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 1rem;
-	}
-
-	:global(.signal-strip) article {
-		padding: 1.2rem;
-
-		background: rgba(12, 14, 20, 0.7);
-		border: 1px solid rgba(160, 182, 227, 0.11);
-		transition:
-			transform 220ms ease,
-			border-color 220ms ease,
-			background-color 220ms ease;
-	}
-
-	:global(.signal-strip) article:hover {
-		transform: translateY(-3px);
-		border-color: rgba(255, 193, 7, 0.18);
-		background: rgba(16, 18, 25, 0.84);
-	}
-
-	:global(.signal-strip) strong {
-		display: block;
-		font-size: 1.6rem;
-		font-weight: 500;
-		letter-spacing: -0.05em;
-		margin-bottom: 0.4rem;
-		color:#ffc107;
 	}
 
 	:global(.signal-strip) h2 {
