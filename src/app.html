@@ -2,10 +2,19 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="Portfolio website showcasing my work and experience" />
-		<meta name="theme-color" content="#11151b" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<!-- Warm up GA connection before the async script fires -->
+		<link rel="preconnect" href="https://www.googletagmanager.com" />
+		<link rel="dns-prefetch" href="https://www.google-analytics.com" />
+		<!-- Google Analytics — placed in app.html so it lives outside Svelte's
+		     head management: fires once on load, never re-fires on soft navigations -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-E63W60ZT7G"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-E63W60ZT7G');
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

@@ -19,9 +19,16 @@
 		<div class="work-grid">
 			{#each projects as project, index}
 				<Reveal className="work-card" delay={index * 80 + 40}>
-					<a href={project.url} target="_blank" rel="noreferrer">
+					<a href={project.url} target="_blank" rel="noopener noreferrer">
 						<div class="work-card__media">
-							<img src={project.image} alt={project.name} loading="lazy" width="1200" height="760" />
+							<img
+							src={project.image}
+							alt={project.name}
+							loading="lazy"
+							width="1200"
+							height="760"
+							sizes="(max-width: 960px) calc(100vw - 2rem), calc((min(1180px, 100vw - 2rem) - 2rem) / 3)"
+						/>
 						</div>
 
 						<div class="work-card__content">

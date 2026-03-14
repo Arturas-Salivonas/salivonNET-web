@@ -4,6 +4,14 @@
 @import '@fontsource/ibm-plex-mono/400.css';
 @import '@fontsource/ibm-plex-mono/500.css';
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
 :root {
 	color-scheme: dark;
 	--bg: #07090d;
@@ -27,15 +35,19 @@ html {
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
 	background: var(--bg);
+	scroll-behavior: smooth;
+	overflow-x: hidden;
 }
 
 body {
 	font-family: var(--font-sans);
 	line-height: 1.55;
-	background: #050505;
+	background: var(--bg);
 	color: var(--text-main);
 	-webkit-text-size-adjust: 100%;
 	cursor: default;
+	overflow-x: hidden;
+	min-height: 100vh;
 }
 
 body::before {
@@ -63,11 +75,15 @@ a {
 }
 
 img {
+	max-width: 100%;
+	height: auto;
+	display: block;
 	background: rgba(255, 255, 255, 0.03);
 }
 
 button,
-a,
+.button,
+.contact-button,
 input,
 select,
 textarea {

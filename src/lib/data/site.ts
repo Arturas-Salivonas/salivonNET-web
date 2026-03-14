@@ -69,9 +69,9 @@ export const site: SiteData = {
 	] satisfies SocialLink[],
 	contact: {
 		eyebrow: 'Need a hand?',
-		title: 'If you need help with a project, a website refresh, or want to hire me for short or long term work, get in touch.',
+		title: 'Contact me for your next project',
 		description:
-			'I work across fast marketing sites, SEO-focused builds, product frontends, and ongoing delivery work. If you already know what you need or just want to talk through the scope, email me and I will get back to you.',
+			'If you need help with a project, a website refresh, or want to hire me for short or long term work, get in touch.',
 		email: 'arturas@salivon.net',
 		buttonLabel: 'Email Arturas',
 		availability: ['Project work', 'Website rebuilds', 'Short-term contracts', 'Long-term roles'],

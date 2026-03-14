@@ -28,10 +28,6 @@
 </section>
 
 <style>
-	:global(.capabilities__header) {
-		margin-bottom: 1.4rem;
-	}
-
 	.capability-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));

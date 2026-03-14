@@ -17,25 +17,12 @@
 				<p class="contact-kicker">{contact.eyebrow}</p>
 				<h2>{contact.title}</h2>
 				<p class="contact-description">{contact.description}</p>
-			</Reveal>
-
-			<Reveal className="contact-panel" delay={90}>
-				<div class="contact-panel__inner">
-					<p class="contact-panel__label">Best for</p>
-					<div class="contact-tags" aria-label="Availability types">
-						{#each contact.availability as item}
-							<span>{item}</span>
-						{/each}
-					</div>
-
-					<a class="contact-button" href={mailtoHref}>
+				<a class="contact-button" href={mailtoHref}>
 						<span>{contact.buttonLabel}</span>
 						<strong>{contact.email}</strong>
 					</a>
-
-					<p class="contact-note">{contact.note}</p>
-				</div>
 			</Reveal>
+
 		</div>
 	</div>
 </section>
@@ -141,7 +128,7 @@
 		gap: 0.28rem;
 		align-items: center;
 		padding: 1rem 1.1rem;
-
+	margin-top:1rem;
 		background: linear-gradient(135deg, rgba(85, 19, 173, 0.92), rgba(122, 62, 215, 0.94));
 		border: 1px solid rgba(214, 187, 255, 0.18);
 		transition:
