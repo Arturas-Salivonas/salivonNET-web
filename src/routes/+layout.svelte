@@ -8,7 +8,8 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href="/as-favicon.png" />
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+	<link rel="alternate icon" href="/as-favicon.png" />
 	<meta name="format-detection" content="telephone=no" />
 	<!-- Preload the two most critical font weights:
 	     400 = all body text (most rendered characters),

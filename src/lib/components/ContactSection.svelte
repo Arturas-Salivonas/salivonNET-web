@@ -1,198 +1,171 @@
 <script lang="ts">
 	import Reveal from '$lib/components/Reveal.svelte';
-	import type { ContactSectionData } from '$lib/data/site';
+	import type { ContactData } from '$lib/data/site';
 
 	interface Props {
-		contact: ContactSectionData;
+		contact: ContactData;
+		email: string;
 	}
 
-	let { contact }: Props = $props();
-	const mailtoHref = `mailto:${contact.email}`;
+	let { contact, email }: Props = $props();
 </script>
 
 <section class="section contact-section" id="contact">
 	<div class="container">
-		<div class="contact-shell">
-			<Reveal className="contact-copy" delay={0}>
-				<p class="contact-kicker">{contact.eyebrow}</p>
-				<h2>{contact.title}</h2>
-				<p class="contact-description">{contact.description}</p>
-				<a class="contact-button" href={mailtoHref}>
-						<span>{contact.buttonLabel}</span>
-						<strong>{contact.email}</strong>
-					</a>
-			</Reveal>
+		<Reveal className="contact" delay={40}>
+			<div class="contact__copy">
+				<p class="kicker">{contact.eyebrow}</p>
+				<h2 class="contact__title">{contact.title}</h2>
+				<p class="contact__intro">{contact.description}</p>
+				<div class="chips">
+					{#each contact.chips as chip}
+						<span>{chip}</span>
+					{/each}
+				</div>
+			</div>
+			<div class="contact__side">
+				<a class="email-btn" href="mailto:{email}">
+					<span>{contact.buttonLabel}</span>
+					<strong>{email}</strong>
+				</a>
+				<p class="contact__note">{contact.note}</p>
+			</div>
+		</Reveal>
 
-		</div>
+		<footer class="footer">
+			<span>(c) {new Date().getFullYear()} Arturas Salivonas</span>
+			<span>salivon.net - hand-built, no page builder</span>
+		</footer>
 	</div>
 </section>
 
 <style>
-	.contact-section {
-		padding-top: clamp(2.5rem, 6vw, 4.5rem);
+	.section {
+		padding: clamp(3rem, 7vw, 4.75rem) 0 0;
 	}
 
-	.contact-shell {
+	:global(.contact) {
 		display: grid;
-		grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+		gap: 2.75rem;
+		padding: clamp(1.9rem, 4vw, 3.25rem) clamp(1.5rem, 4vw, 3rem);
+		border: 1px solid rgba(160, 182, 227, 0.14);
+		background: linear-gradient(180deg, rgba(12, 16, 24, 0.9), rgba(8, 10, 15, 0.96));
+	}
+
+	.contact__copy {
+		display: flex;
+		flex-direction: column;
 		gap: 1rem;
-		align-items: stretch;
 	}
 
-	:global(.contact-copy),
-	:global(.contact-panel) {
-		height: 100%;
-	}
-
-	:global(.contact-copy) {
-		padding: clamp(1.4rem, 3vw, 2rem);
-
-		background:
-			linear-gradient(180deg, rgba(12, 16, 24, 0.9), rgba(8, 10, 15, 0.96)),
-			radial-gradient(circle at top left, rgba(85, 19, 173, 0.22), transparent 42%);
-		border: 1px solid rgba(160, 182, 227, 0.12);
-		box-shadow: var(--shadow-panel);
-	}
-
-	.contact-kicker,
-	.contact-panel__label,
-	.contact-tags span {
+	.kicker {
 		font-family: var(--font-mono);
+		font-size: 0.75rem;
 		text-transform: uppercase;
-		letter-spacing: 0.16em;
+		letter-spacing: 0.22em;
+		color: var(--accent);
 	}
 
-	.contact-kicker {
-		margin-bottom: 1rem;
-		font-size: 0.78rem;
-		color: var(--accent-2);
+	.contact__title {
+		max-width: 16ch;
+		font-size: clamp(1.9rem, 4vw, 2.625rem);
+		line-height: 1.03;
+		letter-spacing: -0.03em;
+		font-weight: 600;
 	}
 
-	:global(.contact-copy) h2 {
-		max-width: 13ch;
-		font-size: clamp(2.2rem, 4.2vw, 3.5rem);
-		line-height: 0.98;
-		letter-spacing: -0.05em;
-		margin-bottom: 1rem;
-	}
-
-	.contact-description {
-		max-width: 58ch;
-		font-size: 1.02rem;
+	.contact__intro {
+		max-width: 60ch;
+		font-size: 1rem;
 		color: var(--text-soft);
 	}
 
-	:global(.contact-panel) {
-		padding: 1px;
-
-		background: linear-gradient(135deg, rgba(182, 136, 255, 0.34), rgba(85, 19, 173, 0.16), rgba(255, 193, 7, 0.12));
-	}
-
-	.contact-panel__inner {
-		display: grid;
-		gap: 1rem;
-		height: 100%;
-		padding: clamp(1.25rem, 3vw, 1.6rem);
-
-		background:
-			linear-gradient(180deg, rgba(13, 17, 24, 0.95), rgba(9, 10, 15, 0.98)),
-			radial-gradient(circle at top right, rgba(85, 19, 173, 0.18), transparent 52%);
-	}
-
-	.contact-panel__label {
-		font-size: 0.72rem;
-			color: var(--accent-2);
-	}
-
-	.contact-tags {
+	.chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.65rem;
+		gap: 0.5rem;
+		margin-top: 0.25rem;
 	}
 
-	.contact-tags span {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-
-		padding: 0.55rem 0.8rem;
-
-		font-size: 0.68rem;
-
-		background: rgba(85, 19, 173, 0.22);
-
-	}
-
-	.contact-button {
-		display: grid;
-		gap: 0.28rem;
-		align-items: center;
-		padding: 1rem 1.1rem;
-	margin-top:1rem;
-		background: linear-gradient(135deg, rgba(85, 19, 173, 0.92), rgba(122, 62, 215, 0.94));
-		border: 1px solid rgba(214, 187, 255, 0.18);
-		transition:
-			transform 220ms ease,
-			box-shadow 220ms ease,
-			filter 220ms ease;
-		box-shadow: 0 18px 40px rgba(34, 9, 76, 0.36);
-	}
-
-	.contact-button:hover {
-		transform: translateY(-2px);
-		filter: brightness(1.05);
-		box-shadow: 0 22px 44px rgba(34, 9, 76, 0.44);
-	}
-
-	.contact-button span {
-		font-size: 0.78rem;
-		letter-spacing: 0.08em;
+	.chips span {
+		padding: 0.5rem 0.8rem;
+		border: 1px solid rgba(160, 182, 227, 0.2);
+		font-family: var(--font-mono);
+		font-size: 0.66rem;
 		text-transform: uppercase;
-		color: rgba(240, 230, 255, 0.8);
+		letter-spacing: 0.14em;
+		color: rgba(233, 240, 255, 0.75);
 	}
 
-	.contact-button strong {
-		font-size: clamp(1.1rem, 2vw, 1.3rem);
-		font-weight: 500;
+	.contact__side {
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+		justify-content: center;
+	}
+
+	.email-btn {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		padding: 1.25rem 1.375rem;
+		background: var(--accent);
+		color: var(--ink);
+		transition:
+			transform 200ms ease,
+			filter 200ms ease;
+	}
+
+	.email-btn:hover {
+		transform: translateY(-2px);
+		color: var(--ink);
+		filter: brightness(1.05);
+	}
+
+	.email-btn span {
+		font-family: var(--font-mono);
+		font-size: 0.66rem;
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		opacity: 0.75;
+	}
+
+	.email-btn strong {
+		font-size: 1.3125rem;
+		font-weight: 600;
+		letter-spacing: -0.01em;
 		word-break: break-word;
 	}
 
-	.contact-note {
-		color: var(--text-soft);
-		font-size: 0.95rem;
+	.contact__note {
+		font-size: 0.8125rem;
+		color: rgba(191, 203, 230, 0.55);
 	}
 
-	@media (max-width: 900px) {
-		.contact-shell {
+	.footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+		padding: 1.6rem 0 2.1rem;
+		margin-top: 4.75rem;
+		border-top: 1px solid rgba(160, 182, 227, 0.1);
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		letter-spacing: 0.08em;
+		color: rgba(191, 203, 230, 0.45);
+	}
+
+	@media (max-width: 820px) {
+		:global(.contact) {
 			grid-template-columns: 1fr;
+			gap: 1.75rem;
 		}
 
-		:global(.contact-copy) h2 {
+		.contact__title {
 			max-width: 100%;
-		}
-	}
-
-	@media (max-width: 640px) {
-		.contact-section {
-			padding-top: 2rem;
-		}
-
-		:global(.contact-copy),
-		.contact-panel__inner {
-			padding: 1.15rem;
-		}
-
-		.contact-tags {
-			gap: 0.5rem;
-		}
-
-		.contact-tags span {
-			width: 100%;
-			justify-content: flex-start;
-		}
-
-		.contact-button {
-			padding: 0.95rem 1rem;
 		}
 	}
 </style>

@@ -1,10 +1,24 @@
 <script lang="ts">
-	import CapabilityGrid from '$lib/components/CapabilityGrid.svelte';
-	import ContactSection from '$lib/components/ContactSection.svelte';
-	import FeaturedWorkSection from '$lib/components/FeaturedWorkSection.svelte';
+	import SiteNav from '$lib/components/SiteNav.svelte';
 	import HeroSection from '$lib/components/HeroSection.svelte';
-	import InteractiveBackdrop from '$lib/components/InteractiveBackdrop.svelte';
-	import { capabilities, projects, site } from '$lib/data/site';
+	import StatsBar from '$lib/components/StatsBar.svelte';
+	import CapabilityGrid from '$lib/components/CapabilityGrid.svelte';
+	import FeaturedWorkSection from '$lib/components/FeaturedWorkSection.svelte';
+	import MedicalBand from '$lib/components/MedicalBand.svelte';
+	import AutomationSection from '$lib/components/AutomationSection.svelte';
+	import ContactSection from '$lib/components/ContactSection.svelte';
+	import {
+		capabilities,
+		clientProjects,
+		contact,
+		medicalCards,
+		moreClients,
+		navLinks,
+		platforms,
+		site,
+		stats,
+		terminalLines
+	} from '$lib/data/site';
 
 	const jsonLd = {
 		'@context': 'https://schema.org',
@@ -15,7 +29,7 @@
 				name: site.name,
 				jobTitle: site.titleRole,
 				url: 'https://salivon.net/',
-				email: site.contact.email,
+				email: site.email,
 				description: site.intro,
 				image: 'https://salivon.net/arturas.webp',
 				sameAs: site.socials.map((s) => s.href),
@@ -25,11 +39,19 @@
 					'React',
 					'Next.js',
 					'TypeScript',
-					'WordPress',
+					'WordPress Development',
 					'Technical SEO',
+					'E-E-A-T',
 					'Core Web Vitals',
-					'Performance Optimization',
-					'Web Accessibility'
+					'Ecommerce Development',
+					'Stripe',
+					'Worldpay',
+					'Automation',
+					'API Integration',
+					'Semble.io',
+					'HubSpot',
+					'Cloudflare',
+					'Web Security'
 				]
 			},
 			{
@@ -57,7 +79,7 @@
 	<meta name="description" content={site.intro} />
 	<meta name="robots" content="index, follow" />
 	<meta name="author" content={site.name} />
-	<meta name="theme-color" content="#050505" />
+	<meta name="theme-color" content="#07090d" />
 	<link rel="canonical" href="https://salivon.net/" />
 	<meta property="og:type" content="profile" />
 	<meta property="og:title" content="{site.name} | {site.titleRole}" />
@@ -78,19 +100,19 @@
 </svelte:head>
 
 <main class="page-shell">
-	<InteractiveBackdrop />
-
+	<SiteNav links={navLinks} />
 	<HeroSection {site} />
+	<StatsBar {stats} />
 	<CapabilityGrid groups={capabilities} />
-	<FeaturedWorkSection {projects} />
-
-	<ContactSection contact={site.contact} />
+	<FeaturedWorkSection {platforms} {clientProjects} {moreClients} />
+	<MedicalBand cards={medicalCards} />
+	<AutomationSection lines={terminalLines} />
+	<ContactSection {contact} email={site.email} />
 </main>
 
 <style>
 	.page-shell {
 		position: relative;
 		min-height: 100vh;
-		padding-bottom: 4rem;
 	}
 </style>

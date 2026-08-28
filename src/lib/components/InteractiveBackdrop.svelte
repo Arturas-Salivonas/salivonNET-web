@@ -20,6 +20,10 @@
 		vy: number;
 		size: number;
 		phase: number;
+		minX: number;
+		maxX: number;
+		minY: number;
+		maxY: number;
 	}
 
 	interface PickupBurst {
@@ -60,7 +64,7 @@
 	const BACKDROP_CONFIG = {
 		counts: {
 			segments: 14,
-			collectibles: 6
+			collectibles: 12
 		},
 		gridSize: 24,
 		spawnPaddingMultiplier: 3,
@@ -200,26 +204,32 @@
 		const delayedTarget = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
 		let width = window.innerWidth;
 		let height = window.innerHeight;
+		let scrollY = window.scrollY;
 		let dpr = Math.min(window.devicePixelRatio || 1, pixelRatioCap);
 		const createSegment = (): Segment => ({ x: target.x, y: target.y, collected: false });
 		const segments: Segment[] = Array.from({ length: counts.segments }, createSegment);
 		const bursts: PickupBurst[] = [];
 
 		const snapToGrid = (value: number) => Math.round(value / gridSize) * gridSize;
+		const screenToWorldY = (value: number) => value + scrollY;
 		const distanceBetween = (firstX: number, firstY: number, secondX: number, secondY: number) => {
 			const deltaX = firstX - secondX;
 			const deltaY = firstY - secondY;
 			return Math.hypot(deltaX, deltaY);
 		};
 
-		const spawnCollectible = (originX = target.x, originY = target.y): Collectible => {
+		const spawnCollectible = (originX = target.x, originY = screenToWorldY(target.y)): Collectible => {
+			const minX = gridSize * 2;
+			const maxX = Math.max(minX, width - gridSize * 2);
+			const minY = scrollY + gridSize * 2;
+			const maxY = Math.max(minY, scrollY + height - gridSize * 2);
 			const padding = gridSize * spawnPaddingMultiplier;
 			let nextX = originX;
 			let nextY = originY;
 
 			for (let attempt = 0; attempt < 16; attempt += 1) {
-				nextX = snapToGrid(randomRange(padding, Math.max(padding, width - padding)));
-				nextY = snapToGrid(randomRange(padding, Math.max(padding, height - padding)));
+				nextX = snapToGrid(randomRange(Math.max(minX, padding), Math.max(Math.max(minX, padding), maxX)));
+				nextY = snapToGrid(randomRange(Math.max(minY, scrollY + padding), Math.max(Math.max(minY, scrollY + padding), maxY)));
 
 				if (distanceBetween(nextX, nextY, originX, originY) > Math.min(width, height) * spawnDistanceFactor) {
 					break;
@@ -234,7 +244,11 @@
 				vx: (Math.random() > 0.5 ? 1 : -1) * speed,
 				vy: (Math.random() > 0.5 ? 1 : -1) * randomRange(...collectibleSettings.speedYRange),
 				size: randomRange(...collectibleSettings.sizeRange),
-				phase: randomRange(0, Math.PI * 2)
+				phase: randomRange(0, Math.PI * 2),
+				minX,
+				maxX,
+				minY,
+				maxY
 			};
 		};
 
@@ -267,8 +281,12 @@
 
 			for (const collectible of collectibles) {
 				collectible.x = clamp(collectible.x, gridSize * 2, width - gridSize * 2);
-				collectible.y = clamp(collectible.y, gridSize * 2, height - gridSize * 2);
+				collectible.y = clamp(collectible.y, collectible.minY, collectible.maxY);
 			}
+		};
+
+		const handleScroll = () => {
+			scrollY = window.scrollY;
 		};
 
 		const handlePointerMove = (event: PointerEvent) => {
@@ -303,18 +321,14 @@
 				collectible.x += collectible.vx;
 				collectible.y += collectible.vy;
 
-				const minBound = gridSize * 2;
-				const maxX = width - gridSize * 2;
-				const maxY = height - gridSize * 2;
-
-				if (collectible.x <= minBound || collectible.x >= maxX) {
+				if (collectible.x <= collectible.minX || collectible.x >= collectible.maxX) {
 					collectible.vx *= -1;
-					collectible.x = clamp(collectible.x, minBound, maxX);
+					collectible.x = clamp(collectible.x, collectible.minX, collectible.maxX);
 				}
 
-				if (collectible.y <= minBound || collectible.y >= maxY) {
+				if (collectible.y <= collectible.minY || collectible.y >= collectible.maxY) {
 					collectible.vy *= -1;
-					collectible.y = clamp(collectible.y, minBound, maxY);
+					collectible.y = clamp(collectible.y, collectible.minY, collectible.maxY);
 				}
 
 				const pulse =
@@ -326,7 +340,7 @@
 					Math.sin(time * collectibleSettings.drift.ySpeed + collectible.phase * collectibleSettings.drift.yPhaseMultiplier) *
 					collectibleSettings.drift.yAmplitude;
 				const x = collectible.x + driftX - blockSize * 0.5;
-				const y = collectible.y + driftY - blockSize * 0.5;
+				const y = collectible.y - scrollY + driftY - blockSize * 0.5;
 
 				context.fillStyle = rgba(
 					theme.collectible.glow,
@@ -362,16 +376,17 @@
 				const progress = burst.life / burst.maxLife;
 				const alpha = 1 - progress;
 				const ringRadius = burst.radius + progress * gridSize * BACKDROP_CONFIG.burst.ringExpansionFactor;
+				const burstY = burst.y - scrollY;
 
 				context.strokeStyle = rgba(theme.burst.ring, alpha * 0.55);
 				context.lineWidth = BACKDROP_CONFIG.burst.strokeWidth;
 				context.beginPath();
-				context.arc(burst.x, burst.y, ringRadius, 0, Math.PI * 2);
+				context.arc(burst.x, burstY, ringRadius, 0, Math.PI * 2);
 				context.stroke();
 
 				for (const fragment of burst.fragments) {
 					const fragmentX = burst.x + fragment.vx * burst.life * BACKDROP_CONFIG.burst.fragmentTravelFactor;
-					const fragmentY = burst.y + fragment.vy * burst.life * BACKDROP_CONFIG.burst.fragmentTravelFactor;
+					const fragmentY = burstY + fragment.vy * burst.life * BACKDROP_CONFIG.burst.fragmentTravelFactor;
 					const size = Math.max(BACKDROP_CONFIG.burst.minFragmentSize, fragment.size * alpha);
 					context.fillStyle = rgba(theme.burst.fragment, alpha * 0.7);
 					context.fillRect(fragmentX - size * 0.5, fragmentY - size * 0.5, size, size);
@@ -403,13 +418,13 @@
 			for (let index = 0; index < collectibles.length; index += 1) {
 				const collectible = collectibles[index];
 				const collectibleX = collectible.x;
-				const collectibleY = collectible.y;
+				const collectibleY = collectible.y - scrollY;
 
 				if (distanceBetween(head.x, head.y, collectibleX, collectibleY) <= gridSize * trail.pickupRadiusFactor) {
 					const tail = segments[segments.length - 1];
 					segments.push({ x: tail.x, y: tail.y, collected: true });
-					createPickupBurst(collectibleX, collectibleY);
-					collectibles[index] = spawnCollectible(head.x, head.y);
+					createPickupBurst(collectibleX, collectible.y);
+					collectibles[index] = spawnCollectible(head.x, screenToWorldY(head.y));
 				}
 			}
 
@@ -476,6 +491,7 @@
 
 		resize();
 		window.addEventListener('resize', resize);
+		window.addEventListener('scroll', handleScroll, { passive: true });
 		window.addEventListener('pointermove', handlePointerMove);
 		window.addEventListener('pointerleave', handlePointerLeave);
 		animationFrame = window.requestAnimationFrame(update);
@@ -483,6 +499,7 @@
 		return () => {
 			window.cancelAnimationFrame(animationFrame);
 			window.removeEventListener('resize', resize);
+			window.removeEventListener('scroll', handleScroll);
 			window.removeEventListener('pointermove', handlePointerMove);
 			window.removeEventListener('pointerleave', handlePointerLeave);
 		};

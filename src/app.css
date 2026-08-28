@@ -24,6 +24,8 @@
 	--muted: rgba(191, 203, 230, 0.58);
 	--accent: #ffb300;
 	--accent-2: #ffc107;
+	--ink: #0b0a05;
+	--live: #46d98f;
 	--shadow-panel: 0 28px 80px rgba(0, 0, 0, 0.34);
 	--font-sans: 'Space Grotesk', 'Segoe UI', sans-serif;
 	--font-mono: 'IBM Plex Mono', 'Consolas', monospace;
