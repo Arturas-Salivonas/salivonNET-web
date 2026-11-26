@@ -1,3 +1,29 @@
+# The site has one address: https://salivon.net. Without this, plain http and the www name
+# each served a full copy of every page, so visitors could stay on an unencrypted connection
+# and search engines saw the same site several times over.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Both rules leave /.well-known/ alone. The host fetches files from there over plain http,
+    # on every name, when it renews the certificate, and not every issuer follows a redirect.
+    # The check reads the request line as the visitor sent it (THE_REQUEST), because the path
+    # the server works with changes to /404.html when a file is missing, and that would redirect.
+
+    # The www name goes to the bare name. It goes straight to https, so it is one hop, not two.
+    # The host check is the last condition on purpose: %1 reads from the last one that matched.
+    RewriteCond %{THE_REQUEST} !^[A-Z]+\s/\.well-known/
+    RewriteCond %{HTTP_HOST} ^www\.([^:]+) [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+    # Plain http goes to https. If the host sits behind a proxy that handles the encryption,
+    # HTTPS is never "on" here and the proxy says so in X-Forwarded-Proto instead. Checking
+    # only HTTPS would then redirect forever, so both have to say "not https".
+    RewriteCond %{THE_REQUEST} !^[A-Z]+\s/\.well-known/
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
 # Anything that does not exist gets the 404 page, with a real 404 status
 ErrorDocument 404 /404.html
 
