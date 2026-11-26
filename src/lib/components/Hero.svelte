@@ -49,12 +49,14 @@
 		<h1>
 			{#each problems as problem, index (problem)}
 				<span
+					class="problem"
 					class:is-lit={index === litProblem}
+					data-lit={problem}
 					role="presentation"
 					onmouseenter={() => hold(skills.findIndex((skill) => skill.answers === index))}
 					onmouseleave={release}
 				>
-					{problem}
+					<span class="plain">{problem}</span>
 				</span>
 			{/each}
 			<em>{answer}</em>
@@ -109,12 +111,48 @@
 	h1 em {
 		display: block;
 		font-style: normal;
-		transition: color 0.3s ease;
 	}
 
-	h1 em,
-	h1 .is-lit {
+	h1 em {
 		color: var(--color-accent-bright);
+	}
+
+	/*
+	 * A lit line is a blue copy of the line laid over the white one, and the copy fades in.
+	 * Fading `opacity` is done by the graphics card; fading `color` repaints the text on
+	 * every frame, which slow phones and PageSpeed both notice. The copy is made by CSS from
+	 * `data-lit`, so the words are only in the page once, and the `/ ''` keeps screen
+	 * readers from reading them twice.
+	 */
+	h1 .problem {
+		position: relative;
+	}
+
+	h1 .problem::after {
+		content: attr(data-lit);
+		content: attr(data-lit) / '';
+		position: absolute;
+		inset: 0;
+		color: var(--color-accent-bright);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		pointer-events: none;
+	}
+
+	h1 .is-lit::after {
+		opacity: 1;
+	}
+
+	/*
+	 * The white line fades out only at the end, once the blue copy is nearly in, so the change
+	 * reads as one colour turning into the other, with no dip. Without it the white edges of
+	 * the letters would show around the blue ones. Going back, the white line returns at once
+	 * and the blue copy fades off it. The fade needs a real length: the graphics card cannot
+	 * run a zero-length one, so the browser would fall back to repainting.
+	 */
+	h1 .is-lit .plain {
+		opacity: 0;
+		transition: opacity 0.1s linear 0.2s;
 	}
 
 	.lead {
