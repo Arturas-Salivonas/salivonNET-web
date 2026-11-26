@@ -69,11 +69,11 @@ ErrorDocument 404 /404.html
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
 
-    # No cache for HTML files
+    # HTML is re-checked with the server on every visit, so a new upload shows at once.
+    # It may still be kept in memory ("no-cache", not "no-store"), which is what lets the
+    # browser's Back and Forward buttons show the page instantly.
     <FilesMatch "\.(html|htm)$">
-        Header set Cache-Control "no-cache, no-store, must-revalidate"
-        Header set Pragma "no-cache"
-        Header set Expires "0"
+        Header set Cache-Control "no-cache"
     </FilesMatch>
 </IfModule>
 

@@ -43,6 +43,8 @@ The site is plain files, uploaded by hand.
 ```text
 src/
   app.html                 Document shell and the analytics tag
+  hooks.client.ts          Holds the app back until the first paint
+  hooks.server.ts          Marks the scripts as low priority, at build time
   routes/
     +layout.svelte         Fonts, global styles, header and footer
     +page.svelte           The page: one line per section
@@ -70,7 +72,7 @@ sketch is a small component in `components/sketches/` built from the shapes in
 
 **Colours and type.** Everything comes from the custom properties in `styles/tokens.css`.
 
-## Two ideas worth knowing
+## Three ideas worth knowing
 
 **The cut corner.** Every box has its bottom-right corner cut off, with the missing piece
 floating beside it. Point at the box and the piece clicks into place. It is two classes,
@@ -82,3 +84,16 @@ picture, so nothing looks broken when motion is off, and the loop only animates 
 and `opacity`. The rules are at the top of `styles/sketch.css`.
 
 Animations respect `prefers-reduced-motion`.
+
+**Paint first.** The page is complete as HTML, so nothing is allowed to stand between the
+visitor and the first paint:
+
+- The CSS is inlined into the HTML (`inlineStyleThreshold` in `vite.config.ts`), so the page
+  needs one request to render, not four.
+- The scripts are fetched at low priority (`hooks.server.ts`) and the app only starts once
+  the first frame is on screen (`hooks.client.ts`).
+- Google Analytics, over half the weight of the page, loads on the first sign of a visitor
+  or five seconds after the page has loaded (`app.html`).
+
+To measure a change, run `npm run build` and test the `build/` folder with Lighthouse on its
+mobile setting.

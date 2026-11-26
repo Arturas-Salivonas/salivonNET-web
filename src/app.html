@@ -11,9 +11,12 @@
 		<link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-		<!-- Google Analytics. It lives here, outside Svelte, so it loads once and is never re-run. -->
-		<link rel="preconnect" href="https://www.googletagmanager.com" />
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-E63W60ZT7G"></script>
+		<!--
+			Google Analytics. It is over half the weight of the page and no visitor needs it, so it
+			waits: the script loads on the first sign of a visitor (a move, scroll, tap or key press),
+			or five seconds after the page has loaded. The page view is queued here either way.
+			The cost: someone who leaves sooner than that without touching the page is not counted.
+		-->
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() {
@@ -21,6 +24,26 @@
 			}
 			gtag('js', new Date());
 			gtag('config', 'G-E63W60ZT7G');
+
+			{
+				const signsOfLife = ['pointermove', 'pointerdown', 'keydown', 'scroll', 'touchstart'];
+				let fallback;
+
+				const loadAnalytics = () => {
+					signsOfLife.forEach((type) => removeEventListener(type, loadAnalytics));
+					clearTimeout(fallback);
+
+					const script = document.createElement('script');
+					script.async = true;
+					script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E63W60ZT7G';
+					document.head.append(script);
+				};
+
+				signsOfLife.forEach((type) => addEventListener(type, loadAnalytics, { passive: true }));
+				addEventListener('load', () => (fallback = setTimeout(loadAnalytics, 5000)), {
+					once: true
+				});
+			}
 		</script>
 
 		%sveltekit.head%
