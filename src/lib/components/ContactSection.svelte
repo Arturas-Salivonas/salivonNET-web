@@ -1,171 +1,274 @@
 <script lang="ts">
-	import Reveal from '$lib/components/Reveal.svelte';
-	import type { ContactData } from '$lib/data/site';
+	import { inView } from '#lib/attachments/in-view.ts';
+	import Button from '#lib/components/Button.svelte';
+	import Icon from '#lib/components/Icon.svelte';
+	import { availability, steps } from '#lib/content/contact.ts';
+	import { site } from '#lib/content/site.ts';
 
-	interface Props {
-		contact: ContactData;
-		email: string;
+	const COPIED_MS = 1800;
+
+	// Once the block has been seen, its corner piece clicks in and the step line starts running.
+	let seen = $state(false);
+	let copied = $state(false);
+	let emailText = $state<HTMLElement>();
+
+	async function copyEmail() {
+		try {
+			await navigator.clipboard.writeText(site.email);
+			copied = true;
+			setTimeout(() => (copied = false), COPIED_MS);
+		} catch {
+			// No clipboard access (older browser or blocked): select the address so it can be copied by hand.
+			if (emailText) window.getSelection()?.selectAllChildren(emailText);
+		}
 	}
-
-	let { contact, email }: Props = $props();
 </script>
 
-<section class="section contact-section" id="contact">
-	<div class="container">
-		<Reveal className="contact" delay={40}>
-			<div class="contact__copy">
-				<p class="kicker">{contact.eyebrow}</p>
-				<h2 class="contact__title">{contact.title}</h2>
-				<p class="contact__intro">{contact.description}</p>
-				<div class="chips">
-					{#each contact.chips as chip}
-						<span>{chip}</span>
-					{/each}
-				</div>
-			</div>
-			<div class="contact__side">
-				<a class="email-btn" href="mailto:{email}">
-					<span>{contact.buttonLabel}</span>
-					<strong>{email}</strong>
-				</a>
-				<p class="contact__note">{contact.note}</p>
-			</div>
-		</Reveal>
+<section class="wrap section contact" id="contact" aria-labelledby="contact-title">
+	<div
+		class="panel cut cut-piece"
+		class:is-live={seen}
+		{@attach inView((visible) => (seen ||= visible), { threshold: 0.35 })}
+	>
+		<h2 id="contact-title">Got something slow, manual or messy?</h2>
 
-		<footer class="footer">
-			<span>(c) {new Date().getFullYear()} Arturas Salivonas</span>
-			<span>salivon.net - hand-built, no page builder</span>
-		</footer>
+		<div class="process">
+			<span class="runner" aria-hidden="true"></span>
+			<ol class="steps">
+				{#each steps as step, index (step.title)}
+					<li>
+						<span class="number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+						<h3>{step.title}</h3>
+						<p>{step.detail}</p>
+					</li>
+				{/each}
+			</ol>
+		</div>
+
+		<div class="actions">
+			<Button href="mailto:{site.email}" variant="primary" surface="accent">
+				<Icon name="mail" />
+				<span bind:this={emailText}>{site.email}</span>
+			</Button>
+			<Button surface="accent" onclick={copyEmail}>
+				<Icon name="copy" />
+				<span aria-live="polite">{copied ? 'Copied' : 'Copy email'}</span>
+			</Button>
+			{#each site.socials as social (social.href)}
+				<Button href={social.href} surface="accent" target="_blank" rel="noopener">
+					{social.label}
+					<span class="sr-only">(opens in a new tab)</span>
+				</Button>
+			{/each}
+		</div>
+
+		<p class="availability">{availability}</p>
 	</div>
 </section>
 
 <style>
-	.section {
-		padding: clamp(3rem, 7vw, 4.75rem) 0 0;
+	.contact {
+		padding-top: clamp(8px, 2vw, 24px);
 	}
 
-	:global(.contact) {
+	.panel {
+		--cut: 20px;
+		--cut-fill: var(--color-accent);
+		--cut-piece: var(--color-accent-bright);
+		/* A bigger piece that takes a beat longer, so you see it land. */
+		--cut-gap: 9px;
+		--cut-speed: 0.5s;
+		--cut-delay: 0.25s;
+		padding: clamp(28px, 5vw, 60px);
+		border-radius: 5px;
+		color: #ffffff;
+	}
+
+	.panel :global(:focus-visible) {
+		outline-color: #ffffff;
+	}
+
+	h2 {
+		max-width: 15em;
+		color: #ffffff;
+		font-size: clamp(30px, 4vw, 48px);
+	}
+
+	.process {
+		position: relative;
+		margin-top: clamp(30px, 4vw, 44px);
+	}
+
+	/* A line across the top of the steps, with a dot that keeps travelling along it. */
+	.steps {
+		position: relative;
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-		gap: 2.75rem;
-		padding: clamp(1.9rem, 4vw, 3.25rem) clamp(1.5rem, 4vw, 3rem);
-		border: 1px solid rgba(160, 182, 227, 0.14);
-		background: linear-gradient(180deg, rgba(12, 16, 24, 0.9), rgba(8, 10, 15, 0.96));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 28px;
+		padding-top: 30px;
 	}
 
-	.contact__copy {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+	.steps::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto;
+		height: 2px;
+		background: rgb(255 255 255 / 0.4);
 	}
 
-	.kicker {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.22em;
-		color: var(--accent);
+	.runner {
+		position: absolute;
+		inset: 1px 0 auto;
+		height: 0;
 	}
 
-	.contact__title {
-		max-width: 16ch;
-		font-size: clamp(1.9rem, 4vw, 2.625rem);
-		line-height: 1.03;
-		letter-spacing: -0.03em;
-		font-weight: 600;
+	.runner::after {
+		content: '';
+		position: absolute;
+		right: -6px;
+		top: -6px;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: #ffffff;
 	}
 
-	.contact__intro {
-		max-width: 60ch;
-		font-size: 1rem;
-		color: var(--text-soft);
+	.steps li {
+		position: relative;
+		display: grid;
+		align-content: start;
+		gap: 6px;
 	}
 
-	.chips {
+	/* A delta marks where each step starts on the line. */
+	.steps li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: -37px;
+		width: 14px;
+		height: 12px;
+		background: #ffffff;
+		clip-path: polygon(50% 0, 100% 100%, 0 100%);
+	}
+
+	.number {
+		font-family: var(--font-display);
+		font-size: clamp(44px, 5.4vw, 66px);
+		font-weight: 900;
+		line-height: 1;
+		letter-spacing: -0.04em;
+	}
+
+	/* Outlined numerals where the browser can draw them, solid ones everywhere else. */
+	@supports (-webkit-text-stroke: 1px #ffffff) {
+		.number {
+			color: transparent;
+			-webkit-text-stroke: 2px #ffffff;
+		}
+	}
+
+	h3 {
+		color: #ffffff;
+		font-size: 22px;
+	}
+
+	.steps p {
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+
+	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-top: 0.25rem;
+		gap: 14px;
+		margin-top: clamp(30px, 4vw, 44px);
 	}
 
-	.chips span {
-		padding: 0.5rem 0.8rem;
-		border: 1px solid rgba(160, 182, 227, 0.2);
-		font-family: var(--font-mono);
-		font-size: 0.66rem;
-		text-transform: uppercase;
-		letter-spacing: 0.14em;
-		color: rgba(233, 240, 255, 0.75);
+	.availability {
+		margin-top: 20px;
+		font-size: 15.5px;
+		font-weight: 500;
 	}
 
-	.contact__side {
-		display: flex;
-		flex-direction: column;
-		gap: 1.1rem;
-		justify-content: center;
+	@media (prefers-reduced-motion: no-preference) {
+		.panel.is-live .runner {
+			animation: lap 7s linear infinite both;
+		}
 	}
 
-	.email-btn {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		padding: 1.25rem 1.375rem;
-		background: var(--accent);
-		color: var(--ink);
-		transition:
-			transform 200ms ease,
-			filter 200ms ease;
-	}
-
-	.email-btn:hover {
-		transform: translateY(-2px);
-		color: var(--ink);
-		filter: brightness(1.05);
-	}
-
-	.email-btn span {
-		font-family: var(--font-mono);
-		font-size: 0.66rem;
-		text-transform: uppercase;
-		letter-spacing: 0.18em;
-		opacity: 0.75;
-	}
-
-	.email-btn strong {
-		font-size: 1.3125rem;
-		font-weight: 600;
-		letter-spacing: -0.01em;
-		word-break: break-word;
-	}
-
-	.contact__note {
-		font-size: 0.8125rem;
-		color: rgba(191, 203, 230, 0.55);
-	}
-
-	.footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
-		flex-wrap: wrap;
-		padding: 1.6rem 0 2.1rem;
-		margin-top: 4.75rem;
-		border-top: 1px solid rgba(160, 182, 227, 0.1);
-		font-family: var(--font-mono);
-		font-size: 0.6875rem;
-		letter-spacing: 0.08em;
-		color: rgba(191, 203, 230, 0.45);
-	}
-
-	@media (max-width: 820px) {
-		:global(.contact) {
-			grid-template-columns: 1fr;
-			gap: 1.75rem;
+	@keyframes lap {
+		0% {
+			opacity: 0;
+			transform: translateX(-100%);
 		}
 
-		.contact__title {
-			max-width: 100%;
+		6% {
+			opacity: 1;
+		}
+
+		88% {
+			opacity: 1;
+			transform: none;
+		}
+
+		100% {
+			opacity: 0;
+			transform: none;
+		}
+	}
+
+	@media (max-width: 700px) {
+		/* Steps stack, each with its number on the left. The travelling line is dropped. */
+		.steps {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0;
+			padding-top: 0;
+		}
+
+		.steps::before,
+		.steps li::before,
+		.runner {
+			display: none;
+		}
+
+		.steps li {
+			grid-template-columns: 76px minmax(0, 1fr);
+			column-gap: 14px;
+			padding-block: 18px;
+			border-top: 2px solid rgb(255 255 255 / 0.4);
+		}
+
+		.number {
+			grid-row: span 2;
+			font-size: 46px;
+		}
+
+		h3 {
+			align-self: end;
+			font-size: 20px;
+		}
+	}
+
+	/* Tablets: the four buttons sit in a tidy two-by-two block. */
+	@media (min-width: 561px) and (max-width: 980px) {
+		.actions {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 560px) {
+		/* Email and copy each take a full row; the two profile links share the last one. */
+		.actions {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+
+		.actions :global(.button:nth-child(-n + 2)) {
+			grid-column: 1 / -1;
 		}
 	}
 </style>

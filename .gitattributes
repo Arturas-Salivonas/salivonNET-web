@@ -1,0 +1,7 @@
+# Keep LF line endings everywhere, including Windows checkouts, so Prettier's check passes on every machine.
+* text=auto eol=lf
+
+*.png binary
+*.webp binary
+*.avif binary
+*.woff2 binary

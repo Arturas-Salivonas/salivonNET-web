@@ -1,0 +1,159 @@
+/* Reset, page background, type scale and the few layout helpers every section shares. */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: calc(var(--header-height) + 16px);
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	/* A faint blueprint grid with one soft glow behind the hero. */
+	background-color: var(--color-bg);
+	background-image:
+		radial-gradient(1100px 560px at 80% -120px, rgb(43 93 240 / 0.26), transparent 70%),
+		linear-gradient(rgb(91 140 255 / 0.06) 1px, transparent 1px),
+		linear-gradient(90deg, rgb(91 140 255 / 0.06) 1px, transparent 1px);
+	background-size:
+		auto,
+		56px 56px,
+		56px 56px;
+	background-repeat: no-repeat, repeat, repeat;
+	background-position:
+		0 0,
+		center top,
+		center top;
+	color: var(--color-text);
+	font-family: var(--font-body);
+	font-size: 17px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+	margin: 0;
+}
+
+ul,
+ol {
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Phones flash a grey box on tap by default; the hover and focus styles already give feedback. */
+a,
+button {
+	-webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg {
+	display: block;
+}
+
+h1,
+h2,
+h3 {
+	color: var(--color-ink);
+	font-family: var(--font-display);
+	font-weight: 800;
+	text-wrap: balance;
+}
+
+h2 {
+	font-size: clamp(28px, 3.4vw, 40px);
+	line-height: 1.08;
+	letter-spacing: -0.025em;
+}
+
+h3 {
+	font-size: 20px;
+	line-height: 1.2;
+	letter-spacing: -0.012em;
+}
+
+:focus-visible {
+	outline: 3px solid var(--color-accent-bright);
+	outline-offset: 3px;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+/* Centred column with a gutter that respects phone notches. */
+.wrap {
+	max-width: var(--page-width);
+	margin-inline: auto;
+	padding-left: max(var(--page-gutter), env(safe-area-inset-left, 0px));
+	padding-right: max(var(--page-gutter), env(safe-area-inset-right, 0px));
+}
+
+.section {
+	padding-block: var(--section-space);
+}
+
+.section-head {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: clamp(20px, 3vw, 30px);
+}
+
+.section-head p {
+	font-size: 17.5px;
+	font-weight: 500;
+}
+
+.text-link {
+	color: var(--color-ink);
+	font-weight: 700;
+	text-decoration: underline;
+	text-decoration-color: var(--color-accent-bright);
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+	body {
+		font-size: 16.5px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition: none !important;
+	}
+}

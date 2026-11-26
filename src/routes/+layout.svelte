@@ -1,21 +1,49 @@
 <script lang="ts">
-	import '../app.css';
-	// Vite resolves these to hashed build-output URLs, enabling accurate preload hints
-	import spaceGrotesk400Url from '@fontsource/space-grotesk/files/space-grotesk-latin-400-normal.woff2?url';
-	import spaceGrotesk700Url from '@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2?url';
+	import '@fontsource-variable/red-hat-display';
+	import '@fontsource-variable/red-hat-text';
+	import '#lib/styles/global.css';
 
-	let { children } = $props();
+	// Resolved to their hashed build URLs, so the preload hints below always point at the real files.
+	import displayFont from '@fontsource-variable/red-hat-display/files/red-hat-display-latin-wght-normal.woff2?url';
+	import textFont from '@fontsource-variable/red-hat-text/files/red-hat-text-latin-wght-normal.woff2?url';
+
+	import SiteFooter from '#lib/components/SiteFooter.svelte';
+	import SiteHeader from '#lib/components/SiteHeader.svelte';
+	import type { LayoutProps } from './$types';
+
+	let { children }: LayoutProps = $props();
 </script>
 
 <svelte:head>
-	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-	<link rel="alternate icon" href="/as-favicon.png" />
-	<meta name="format-detection" content="telephone=no" />
-	<!-- Preload the two most critical font weights:
-	     400 = all body text (most rendered characters),
-	     700 = hero H1 headline (LCP element) -->
-	<link rel="preload" href={spaceGrotesk400Url} as="font" type="font/woff2" crossorigin="anonymous" />
-	<link rel="preload" href={spaceGrotesk700Url} as="font" type="font/woff2" crossorigin="anonymous" />
+	<!-- The headline and the body text both need their font before first paint. -->
+	<link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin="anonymous" />
+	<link rel="preload" href={textFont} as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 
-{@render children?.()}
+<a class="skip" href="#main">Skip to content</a>
+
+<SiteHeader />
+
+<main id="main">
+	{@render children()}
+</main>
+
+<SiteFooter />
+
+<style>
+	/* First stop for keyboard users: jump past the header. */
+	.skip {
+		position: absolute;
+		left: 16px;
+		top: -80px;
+		z-index: 40;
+		padding: 12px 16px;
+		background: var(--color-ink);
+		color: var(--color-bg);
+		font-weight: 700;
+	}
+
+	.skip:focus {
+		top: 12px;
+	}
+</style>

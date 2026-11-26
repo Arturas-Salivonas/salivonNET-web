@@ -1,10 +1,18 @@
+import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [sveltekit()],
-	build: {
-		minify: 'terser',
-		cssMinify: 'lightningcss'
-	}
+	plugins: [
+		sveltekit({
+			// The whole site is prerendered to plain files in `build/`. `404.html` is the page
+			// the server shows for anything that does not exist (see static/.htaccess).
+			adapter: adapter({ fallback: '404.html' }),
+			compilerOptions: {
+				// Runes mode for our own code; dependencies keep whatever mode they ship with.
+				runes: ({ filename }) =>
+					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
+			}
+		})
+	]
 });

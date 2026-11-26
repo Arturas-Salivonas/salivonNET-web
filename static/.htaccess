@@ -1,15 +1,5 @@
-# Enable rewrite engine
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-
-    # Serve existing files and directories
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-
-    # Route everything to index.html
-    RewriteRule ^(.*)$ index.html [L]
-</IfModule>
+# Anything that does not exist gets the 404 page, with a real 404 status
+ErrorDocument 404 /404.html
 
 # Enable compression
 <IfModule mod_deflate.c>
@@ -74,12 +64,6 @@
 
     # Referrer policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
-
-    # Preload critical resources (reduce render blocking)
-    <FilesMatch "\.html$">
-        Header add Link "</_app/immutable/assets/0.JHbmQivZ.css>; rel=preload; as=style"
-        Header add Link "</_app/immutable/assets/2.DxugHha6.css>; rel=preload; as=style"
-    </FilesMatch>
 </IfModule>
 
 # Disable directory browsing

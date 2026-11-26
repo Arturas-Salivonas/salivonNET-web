@@ -1,62 +1,84 @@
-# CV-Web Portfolio
+# salivon.net
 
-Single-page portfolio built with SvelteKit 2, Svelte 5, and a static adapter. The codebase is intentionally small: one route, data-driven content, lightweight canvas background motion, and no unused section scaffolding.
+The site of Arturas Salivonas (Salivon Ltd): technical SEO, business automation, internal
+tools and dashboards.
+
+One page, prerendered to static files. No server, no database, no runtime dependencies.
 
 ## Stack
 
-- SvelteKit 2 with Svelte 5
-- TypeScript
-- Vite 7
-- Static generation via `@sveltejs/adapter-static`
-- Local fonts via `@fontsource`
+| What       | Version                                       |
+| ---------- | --------------------------------------------- |
+| SvelteKit  | 3 (Svelte 5, runes mode)                      |
+| Build      | Vite 8                                        |
+| Language   | TypeScript 6, strict                          |
+| Output     | `@sveltejs/adapter-static`                    |
+| Fonts      | Red Hat Display and Red Hat Text, self-hosted |
+| Code style | ESLint 10 and Prettier 3                      |
 
-## Scripts
+Node 22.17 or newer.
+
+## Commands
 
 ```bash
-npm install
-npm run dev
-npm run check
-npm run build
-npm run preview
+npm install        # once
+npm run dev        # local site with hot reload
+npm run verify     # lint, type-check and build: run this before every deploy
+npm run format     # let Prettier fix formatting
+npm run preview    # serve the production build locally
 ```
 
-## Project Structure
+## Deploying
+
+The site is plain files, uploaded by hand.
+
+1. `npm run verify`
+2. Upload the **contents** of `build/` to the web root (not the folder itself).
+
+`static/.htaccess` travels with the build. It sets caching and security headers, and shows
+`404.html` for any address that does not exist.
+
+## How it is organised
 
 ```text
 src/
-  app.css                      Global design tokens and shared layout styles
+  app.html                 Document shell and the analytics tag
   routes/
-    +layout.svelte             Root layout, analytics, and critical resets
-    +page.svelte               Page composition and SEO metadata
+    +layout.svelte         Fonts, global styles, header and footer
+    +page.svelte           The page: one line per section
+    +error.svelte          The 404 page
   lib/
-    data/
-      site.ts                  Typed site content and section data
-    components/
-      CapabilityGrid.svelte    Capability cards
-      FeaturedWorkSection.svelte
-      HeroSection.svelte       Hero copy, portrait, metrics, and social actions
-      InteractiveBackdrop.svelte
-      Reveal.svelte            Reusable reveal wrapper
+    content/               Every word and number on the site, as typed data
+    components/            One component per section, plus Button, Icon and Logo
+      sketches/            The animated mini wireframes
+    attachments/           Reusable element behaviour (in-view detection)
+    styles/                Global CSS: tokens, base, the cut-corner shape, the sketch kit
+static/                    Files served as they are: images, icons, robots, sitemap
 ```
 
-## Editing Content
+Component styles live inside their components. Only the four files in `lib/styles/` are
+global.
 
-Most content lives in [src/lib/data/site.ts](src/lib/data/site.ts).
+## Changing things
 
-- `site.titleRole` is used for the document title and plain metadata.
-- `site.heroRoleHtml` and `site.heroHeadlineHtml` support deliberate inline HTML such as `<br>` or styled spans for the hero only.
-- `metrics`, `capabilities`, and `projects` drive the rest of the page.
+**Words, tools, sites.** Edit the files in `src/lib/content/`. Nothing else needs to change:
+the filter counts, the structured data and the page all read from there.
 
-## Performance Notes
+**Adding a tool.** Add an entry to `tools` in `content/tools.ts` and give it a sketch. A
+sketch is a small component in `components/sketches/` built from the shapes in
+`styles/sketch.css`. Copy the closest existing one and adjust it.
 
-- Static prerendered output
-- Local font loading
-- Sized images to reduce layout shift
-- Reduced-motion fallback for animation
-- Minimal component tree and no client-side routing complexity
+**Colours and type.** Everything comes from the custom properties in `styles/tokens.css`.
 
-## Deployment
+## Two ideas worth knowing
 
-`npm run build` writes the static site to `build/`.
+**The cut corner.** Every box has its bottom-right corner cut off, with the missing piece
+floating beside it. Point at the box and the piece clicks into place. It is two classes,
+`cut` and `cut-piece`, documented in `styles/shape.css`.
 
-Deploy the contents of `build/` to any static host.
+**Sketches.** Each tool is shown as a tiny wireframe that plays in a loop while you hover
+it (or while it is on screen, on a phone). A sketch at rest already shows the finished
+picture, so nothing looks broken when motion is off, and the loop only animates `transform`
+and `opacity`. The rules are at the top of `styles/sketch.css`.
+
+Animations respect `prefers-reduced-motion`.

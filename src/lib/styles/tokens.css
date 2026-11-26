@@ -1,0 +1,50 @@
+/*
+ * Design tokens.
+ *
+ * The site is dark with one blue accent. Anything that is a demo sits on a white
+ * panel, so there are two small palettes: one for the page, one for panels.
+ */
+:root {
+	color-scheme: dark;
+
+	/* Page */
+	--color-bg: #0a0e14;
+	--color-surface: #121821;
+	--color-ink: #f2f5f9;
+	--color-text: #c5cdd9;
+	--color-muted: #98a3b4;
+	--color-line: #222a37;
+	--color-line-strong: #5d6a7f;
+	--color-accent: #2b5df0;
+	--color-accent-bright: #5b8cff;
+	--color-on-accent: #ffffff;
+
+	/* White panels */
+	--panel-bg: #ffffff;
+	--panel-stage: #edf1f6;
+	--panel-ink: #0b111c;
+	--panel-text: #2a3343;
+	--panel-muted: #535e70;
+	--panel-line: #dce2ea;
+	--panel-accent: #1f48c9;
+	--panel-shape: #c9d3df;
+	--panel-shape-soft: #dfe6ee;
+
+	/* Status colours, used inside sketches */
+	--status-ok: #12a37a;
+	--status-warn: #f0a020;
+	--status-bad: #e5484d;
+	--status-violet: #8b5cf6;
+
+	/* Type */
+	--font-display: 'Red Hat Display Variable', 'Segoe UI', system-ui, sans-serif;
+	--font-body: 'Red Hat Text Variable', 'Segoe UI', system-ui, sans-serif;
+
+	/* Layout */
+	--page-width: 1160px;
+	--page-gutter: 20px;
+	--header-height: 68px;
+	--section-space: clamp(36px, 5.5vw, 68px);
+	--radius: 4px;
+	--ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}

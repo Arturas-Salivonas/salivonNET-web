@@ -1,5 +1,8 @@
 node_modules
 
+# Design prototype (published separately; the code is the source of truth)
+/design
+
 # Output
 .output
 .vercel

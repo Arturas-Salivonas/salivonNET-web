@@ -1,0 +1,9 @@
+# Package managers
+package-lock.json
+
+# Generated
+/.svelte-kit/
+/build/
+
+# Served as-is
+/static/

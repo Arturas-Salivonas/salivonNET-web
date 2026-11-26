@@ -1,0 +1,48 @@
+/*
+ * The signature shape.
+ *
+ * Every box on the site has its bottom-right corner cut off, and the missing piece
+ * floats just outside it. Point at the box and the piece clicks into place: something
+ * broken, fixed.
+ *
+ * `.cut`        paints the box. It uses a gradient rather than `clip-path`, so focus
+ *               outlines and anything positioned outside the box still show.
+ * `.cut-piece`  adds the loose triangle.
+ *
+ * Tune with `--cut` (size), `--cut-fill` (box colour), `--cut-piece` (triangle colour),
+ * `--cut-gap` (how far the piece floats away) and `--cut-speed` / `--cut-delay` (the snap).
+ */
+.cut {
+	--cut: 13px;
+	--cut-fill: var(--panel-bg);
+	border-radius: var(--radius);
+	background: linear-gradient(
+		-45deg,
+		transparent calc(var(--cut) - 0.5px),
+		var(--cut-fill) var(--cut)
+	);
+}
+
+.cut-piece {
+	position: relative;
+}
+
+.cut-piece::after {
+	/* `--cut` is measured along the diagonal, so each side of the triangle is cut x sqrt(2). */
+	--side: calc(var(--cut) * 1.4142);
+	content: '';
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: var(--side);
+	height: var(--side);
+	background: var(--cut-piece, var(--color-accent));
+	clip-path: polygon(100% 0, 100% 100%, 0 100%);
+	transform: translate(var(--cut-gap, 6px), var(--cut-gap, 6px));
+	transition: transform var(--cut-speed, 0.3s) var(--ease-snap) var(--cut-delay, 0s);
+	pointer-events: none;
+}
+
+.cut-piece:is(:hover, :focus-visible, :focus-within, .is-live)::after {
+	transform: none;
+}
